@@ -15,18 +15,14 @@ const index = () => {
       console.log(resp)
 
       setResp(resp.status)
-      setCityData(
-        resp.status === 404
-          ? []
-          : [
-              resp.data.weather[0].description.toUpperCase(),
-              resp.data.sys.country,
-              Math.floor(resp.data.main.temp),
-              Math.floor(resp.data.main.temp_min),
-              Math.floor(resp.data.main.temp_max),
-              resp.data.main.humidity,
-            ]
-      )
+      setCityData([
+        resp.data.weather[0].description.toUpperCase(),
+        resp.data.sys.country,
+        Math.floor(resp.data.main.temp),
+        Math.floor(resp.data.main.temp_min),
+        Math.floor(resp.data.main.temp_max),
+        resp.data.main.humidity,
+      ])
 
       setImgUrl(
         "http://openweathermap.org/img/wn/" +
