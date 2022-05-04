@@ -1,7 +1,12 @@
-
+import { BrowserRouter } from "react-router-dom"
+import CustomRoutes from "./router/CustomRoutes"
 
 function App() {
-  return  <div className="App">Merhaba Dünya </div>;
+  return (
+    <BrowserRouter>
+      <CustomRoutes />
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
