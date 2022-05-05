@@ -85,17 +85,27 @@ const index = () => {
       </form>
       <StyledBackground>
         <StyledCard>
-          <h1 className="text-center">{cityData[7] + ", " + cityData[1]}</h1>
-
-          <Form.Check
-            type="switch"
-            id="custom-switch"
-            className="d-flex switch"
-            label={`${lang === "tr" ? "TR-EN" : "EN-TR"}`}
-            onChange={() => {
-              setLg(lg === "en" ? "tr" : "en")
-            }}
-          />
+          {resp === 200 ? (
+            <>
+              <h1 className="text-center">
+                {cityData[7] + ", " + cityData[1]}
+              </h1>
+              <Form.Check
+                type="switch"
+                id="custom-switch"
+                className="d-flex switch"
+                label={`${lang === "tr" ? "TR-EN" : "EN-TR"}`}
+                checked={lg !== lang}
+                onChange={() => {
+                  setLg(lg === "en" ? "tr" : "en")
+                }}
+              />
+            </>
+          ) : (
+            <h1 className="text-center">
+              {lg === "tr" ? "ŞEHİR BULUNAMADI" : "CITY UNDEFINED"}
+            </h1>
+          )}
 
           <Row>
             <Col lg={7}>
@@ -173,7 +183,7 @@ const index = () => {
                     </li>
                   </ul>
                 ) : (
-                  <h1>ŞEHİR BULUNAMADI</h1>
+                  <></>
                 )}
               </div>
             </Col>
