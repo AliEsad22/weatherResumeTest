@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react"
-import { Form } from "react-bootstrap"
+import { Form, Button } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { AiOutlineSearch } from "react-icons/ai"
 
@@ -27,10 +27,16 @@ export default function index() {
         placeholder="Search..."
         value={searchTerm}
         onChange={handleOnChange}
+        style={{ border: "1px solid #5e43c4", borderRadius: "0px" }}
       />
-      <button type="submit">
+      <Button
+        type="submit"
+        variant="dark"
+        className="text-center"
+        style={{ borderRadius: "0px", height: "6vh" }}
+      >
         <AiOutlineSearch />
-      </button>
+      </Button>
     </form>
   )
 }

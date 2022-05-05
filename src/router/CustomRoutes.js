@@ -12,7 +12,6 @@ const CustomRoutes = () => {
         path="/weather/:city"
         element={
           <PrivateRoute>
-            <Search />
             <WeatherDetails />
           </PrivateRoute>
         }
