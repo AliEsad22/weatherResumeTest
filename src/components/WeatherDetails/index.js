@@ -13,14 +13,17 @@ import { StyledBackground, StyledCard } from "./index.styles"
 import { Button } from "react-bootstrap"
 
 const index = () => {
-  let { city } = useParams()
+  let { city, lang } = useParams()
   const [cityData, setCityData] = useState([])
   const [imgUrl, setImgUrl] = useState()
   const [resp, setResp] = useState()
   const [basamak, setBasamak] = useState()
   const [refreshKey, setRefreshKey] = useState(0)
+  const [lg, setLg] = useState(lang)
+  moment.locale(lg)
+  const [now, setNow] = useState(new moment())
   useEffect(() => {
-    searchWeather(city).then((resp) => {
+    searchWeather(city, lg).then((resp) => {
       console.log(resp)
 
       setResp(resp.status)
@@ -32,6 +35,7 @@ const index = () => {
         Math.floor(resp.data.main.temp_max),
         resp.data.main.humidity,
         resp.data.weather[0].id,
+        resp.data.name,
       ])
 
       setBasamak(Math.floor(resp.data.weather[0].id / 100))
@@ -42,13 +46,13 @@ const index = () => {
       setResp(0)
       setImgUrl("")
     }
-  }, [refreshKey])
+  }, [refreshKey, lg])
   const [searchTerm, setSearchTerm] = useState("")
   const navigate = useNavigate()
   const onSubmit = (e) => {
     e.preventDefault()
     if (searchTerm) {
-      navigate(`/weather/${searchTerm}`)
+      navigate(`/weather/${lg}/${searchTerm}`)
       setSearchTerm("")
 
       setRefreshKey(refreshKey + 1)
@@ -69,6 +73,7 @@ const index = () => {
           onChange={handleOnChange}
           style={{ border: "1px solid #5e43c4", borderRadius: "0px" }}
         />
+
         <Button
           type="submit"
           variant="dark"
@@ -80,9 +85,18 @@ const index = () => {
       </form>
       <StyledBackground>
         <StyledCard>
-          <h1 className="text-center">
-            {city.toLocaleUpperCase() + ", " + cityData[1]}
-          </h1>
+          <h1 className="text-center">{cityData[7] + ", " + cityData[1]}</h1>
+
+          <Form.Check
+            type="switch"
+            id="custom-switch"
+            className="d-flex switch"
+            label={`${lang === "tr" ? "TR-EN" : "EN-TR"}`}
+            onChange={() => {
+              setLg(lg === "en" ? "tr" : "en")
+            }}
+          />
+
           <Row>
             <Col lg={7}>
               {resp === 200 ? (
@@ -126,29 +140,35 @@ const index = () => {
                     </li>
                     <li>
                       <h3 style={{ color: "gray" }}>
-                        <BsFillCalendarDateFill color="blue" /> Date:
-                        {moment().format("MMM Do YY")}
+                        <BsFillCalendarDateFill color="blue" />{" "}
+                        {lg === "en" ? "Date :" : "Tarih :"}
+                        {now.format("MMM Do YY")}
                       </h3>
                     </li>
                     <li>
                       <h3 style={{ color: "gray" }}>
-                        <FaTemperatureHigh color="red" /> Temp: {cityData[2]}
+                        <FaTemperatureHigh color="red" />{" "}
+                        {lg === "en" ? "Temp :" : "Sıcaklık :"} {cityData[2]}
                       </h3>
                     </li>
                     <li>
                       <h3 style={{ color: "gray" }}>
                         <BiUpvote color="green" />
-                        Max-Temp: {cityData[4]}
+                        {lg === "en" ? "Max-Temp :" : "Max-Derece :"}{" "}
+                        {cityData[4]}
                       </h3>
                     </li>
                     <li>
                       <h3 style={{ color: "gray" }}>
-                        <BiDownvote color="red" /> Min-Temp: {cityData[3]}
+                        <BiDownvote color="red" />{" "}
+                        {lg === "en" ? "Min-Temp :" : "Min-Derece :"}{" "}
+                        {cityData[3]}
                       </h3>
                     </li>
                     <li>
                       <h3 style={{ color: "gray" }}>
-                        <IoMdWater color="blue" /> Humidty: %{cityData[5]}
+                        <IoMdWater color="blue" />{" "}
+                        {lg === "en" ? "Humidity :" : "Nem :"} %{cityData[5]}
                       </h3>
                     </li>
                   </ul>

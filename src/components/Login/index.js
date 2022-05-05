@@ -20,7 +20,7 @@ export default function index() {
   const onSubmit = (values) => {
     localStorage.setItem("token", values.username)
     localStorage.setItem("password", values.password)
-    navigate("/weather/london")
+    navigate("/weather/en/london")
   }
 
   const formik = useFormik({

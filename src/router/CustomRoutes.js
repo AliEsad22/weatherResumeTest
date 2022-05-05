@@ -9,7 +9,7 @@ const CustomRoutes = () => {
   return (
     <Routes>
       <Route
-        path="/weather/:city"
+        path="/weather/:lang/:city"
         element={
           <PrivateRoute>
             <WeatherDetails />

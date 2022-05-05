@@ -13,4 +13,7 @@ export const StyledCard = styled.div`
   height: 70vh;
   background-color: white;
   border-radius: 5px;
+  & .switch {
+    transform: translateY(-47.55px);
+  }
 `
