@@ -16,4 +16,9 @@ export const StyledCard = styled.div`
   & .switch {
     transform: translateY(-47.55px);
   }
+  & .switch2 {
+    position: relative;
+    top: -71px;
+    transform: translateX(100px);
+  }
 `

@@ -19,6 +19,8 @@ const index = () => {
   const [basamak, setBasamak] = useState()
   const [refreshKey, setRefreshKey] = useState(0)
   const [lg, setLg] = useState(lang)
+  const [imgOrGif, setImgOrGif] = useState("gif")
+  const [imgUrl, setImgUrl] = useState()
   moment.locale(lg)
   const [now, setNow] = useState(new moment())
   useEffect(() => {
@@ -40,16 +42,22 @@ const index = () => {
         resp.data.weather[0].id,
         resp.data.name.toUpperCase(),
       ])
-
+      setImgUrl(
+        "http://openweathermap.org/img/wn/" +
+          resp.data.weather[0].icon +
+          "@2x.png"
+      )
       setBasamak(Math.floor(resp.data.weather[0].id / 100))
       console.log(basamak)
+      console.log(imgUrl)
     })
     return () => {
       setCityData([])
       setResp(0)
       setNow()
+      setImgUrl()
     }
-  }, [refreshKey, lg])
+  }, [refreshKey, lg, imgOrGif])
   const [searchTerm, setSearchTerm] = useState("")
   const navigate = useNavigate()
   const onSubmit = (e) => {
@@ -103,6 +111,16 @@ const index = () => {
                   setLg(lg === "en" ? "tr" : "en")
                 }}
               />
+              <Form.Check
+                type="switch"
+                id="custom-switch"
+                className="d-flex switch2 "
+                label={`${lang === "gif" ? "GIF-IMG" : "IMG-GIF"}`}
+                checked={imgOrGif === "img"}
+                onChange={() => {
+                  setImgOrGif(imgOrGif === "gif" ? "img" : "gif")
+                }}
+              />
             </>
           ) : (
             <h1 className="text-center">
@@ -117,21 +135,23 @@ const index = () => {
                   src={
                     resp === 404
                       ? ""
-                      : basamak === 2
-                      ? "https://media.giphy.com/media/VJq6ahBLV6O3lR8SB5/giphy.gif"
-                      : basamak === 3
-                      ? "https://media.giphy.com/media/iib1hS2h5d968jKEJ5/giphy.gif"
-                      : basamak === 5
-                      ? "https://media.giphy.com/media/EEFEyXLO9E0YE/giphy.gif"
-                      : basamak === 6
-                      ? "https://media.giphy.com/media/PtgBUWepLWMHqGsApe/giphy.gif"
-                      : basamak === 7
-                      ? "https://media.giphy.com/media/cPSj5rgV2M9yDKHzCj/giphy.gif"
-                      : cityData[6] === 800
-                      ? "https://media.giphy.com/media/fwR54Wq7dYu9VXKiAF/giphy.gif"
-                      : Math.floor(cityData[6] / 10) === 80
-                      ? "https://media.giphy.com/media/2AMBtjL26O65qciYjR/giphy.gif"
-                      : ""
+                      : imgOrGif === "gif"
+                      ? basamak === 2
+                        ? "https://media.giphy.com/media/VJq6ahBLV6O3lR8SB5/giphy.gif"
+                        : basamak === 3
+                        ? "https://media.giphy.com/media/iib1hS2h5d968jKEJ5/giphy.gif"
+                        : basamak === 5
+                        ? "https://media.giphy.com/media/EEFEyXLO9E0YE/giphy.gif"
+                        : basamak === 6
+                        ? "https://media.giphy.com/media/PtgBUWepLWMHqGsApe/giphy.gif"
+                        : basamak === 7
+                        ? "https://media.giphy.com/media/cPSj5rgV2M9yDKHzCj/giphy.gif"
+                        : cityData[6] === 800
+                        ? "https://media.giphy.com/media/fwR54Wq7dYu9VXKiAF/giphy.gif"
+                        : Math.floor(cityData[6] / 10) === 80
+                        ? "https://media.giphy.com/media/2AMBtjL26O65qciYjR/giphy.gif"
+                        : ""
+                      : imgUrl
                   }
                   alt={cityData[0]}
                   style={{
