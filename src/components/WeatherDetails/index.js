@@ -6,7 +6,7 @@ import { BsFillCalendarDateFill } from "react-icons/bs"
 import { IoMdWater } from "react-icons/io"
 import { AiOutlineSearch } from "react-icons/ai"
 import React, { useEffect, useState } from "react"
-import { Col, Container, Form, Row } from "react-bootstrap"
+import { Col, Form, Row } from "react-bootstrap"
 import { useNavigate, useParams } from "react-router-dom"
 import { searchWeather } from "../../api/api-services"
 import { StyledBackground, StyledCard } from "./index.styles"
@@ -15,7 +15,6 @@ import { Button } from "react-bootstrap"
 const index = () => {
   let { city, lang } = useParams()
   const [cityData, setCityData] = useState([])
-  const [imgUrl, setImgUrl] = useState()
   const [resp, setResp] = useState()
   const [basamak, setBasamak] = useState()
   const [refreshKey, setRefreshKey] = useState(0)
@@ -29,7 +28,7 @@ const index = () => {
         lg === "en"
           ? `${resp.data.name.toUpperCase()} WEATHER FORECAST `
           : `${resp.data.name.toUpperCase()} HAVA DURUMU`
-
+      setNow(new moment())
       setResp(resp.status)
       setCityData([
         resp.data.weather[0].description.toUpperCase(),
@@ -39,7 +38,7 @@ const index = () => {
         Math.floor(resp.data.main.temp_max),
         resp.data.main.humidity,
         resp.data.weather[0].id,
-        resp.data.name,
+        resp.data.name.toUpperCase(),
       ])
 
       setBasamak(Math.floor(resp.data.weather[0].id / 100))
@@ -48,7 +47,7 @@ const index = () => {
     return () => {
       setCityData([])
       setResp(0)
-      setImgUrl("")
+      setNow()
     }
   }, [refreshKey, lg])
   const [searchTerm, setSearchTerm] = useState("")
