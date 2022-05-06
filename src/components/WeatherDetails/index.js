@@ -25,6 +25,10 @@ const index = () => {
   useEffect(() => {
     searchWeather(city, lg).then((resp) => {
       console.log(resp)
+      document.title =
+        lg === "en"
+          ? `${resp.data.name.toUpperCase()} WEATHER FORECAST `
+          : `${resp.data.name.toUpperCase()} HAVA DURUMU`
 
       setResp(resp.status)
       setCityData([
@@ -68,7 +72,7 @@ const index = () => {
         <Form.Control
           type="text"
           autoFocus="autoFocus"
-          placeholder="Search..."
+          placeholder={lg === "en" ? "Search..." : "Şehir Giriniz..."}
           value={searchTerm}
           onChange={handleOnChange}
           style={{ border: "1px solid #5e43c4", borderRadius: "0px" }}
